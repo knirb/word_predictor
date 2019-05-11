@@ -44,60 +44,18 @@ class TrigramModel(object):
     self.bigram_count[triple[0]][triple[1]] += 1
     self.trigram_count[triple[0]][triple[1]][triple[2]] += 1
 
+
 def main():
   trigram_model = TrigramModel()
   trigram_model.process_files("corpus.txt")
-  #print(trigram_model.trigram_count)
-  print(trigram_model.trigram_count["well"][","]["everyone"])
+  print(trigram_model.trigram_count)
+  #print(trigram_model.trigram_count["well"][","]["everyone"])
 
 if __name__ == "__main__":
     main()
     
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# user_input = "This is a test string"
-# trigram_dict = {}
-# dist = nltk.FreqDist(output)
-
-# for k,v in dist.items():
-#   print (k,v)
-
-# for s in output:
-#   nested_trigram_dict = {}
-#   nested_trigram_dict[s[1]] = s[2]
-#   if s[0] not in trigram_dict:
-#     nested_list = []
-#     nested_list.append(nested_trigram_dict)
-#     trigram_dict[s[0]] = nested_list
-#   else:
-#     trigram_list = trigram_dict[s[0]]
-#     trigram_list.append(nested_trigram_dict)
-#     trigram_dict[s[0]] = trigram_list
-# print(trigram_dict)
 
 
 
