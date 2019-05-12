@@ -33,7 +33,6 @@ class WordPredictor(object):
         self.trigram_freq = nltk.ConditionalFreqDist(trigrams_as_bigrams)
 
     def guess_next_word_bigram(self, prev_word):
-        # bigram model
         try:
             bigram_most_common = self.bigram_freq[prev_word.lower()].most_common(3)
             guess_1 = bigram_most_common[0][0]
@@ -46,7 +45,6 @@ class WordPredictor(object):
         return guess_1, guess_2, guess_3
 
     def guess_next_word_trigram(self, prev_prev_word, prev_word):
-        # trigram model
         try:
             trigram_most_common = self.trigram_freq[(prev_prev_word.lower(),prev_word.lower())].most_common(3)
             guess_1 = trigram_most_common[0][0]
@@ -58,30 +56,79 @@ class WordPredictor(object):
             guess_3 = None
         return guess_1, guess_2, guess_3
 
+    def finish_word(self, current_word):
+        try:
+            words_with_same_start = []
+
+            for token in self.tokens:
+                if token.startswith(current_word):
+                    words_with_same_start.append(token)
+
+            finish_word_freq_dist = nltk.FreqDist(words_with_same_start)
+            guess_1, guess_2, guess_3 = finish_word_freq_dist.most_common(3)
+            guess_1, guess_2, guess_3 = guess_1[0], guess_2[0], guess_3[0]
+
+
+        except:
+            guess_1 = None
+            guess_2 = None
+            guess_3 = None
+
+        return guess_1, guess_2, guess_3
+
 def main():
     word_predictor = WordPredictor()
     word_predictor.process_file("corpus.txt")
 
-    user_input = "This is a "
+    user_input = "Thi"
     user_word_list = user_input.split()
 
-    guess_1 = ""
-    guess_2 = ""
-    guess_3 = ""
+    guess_1 = None
+    guess_2 = None
+    guess_3 = None
 
+    # guess next full word using previous word
     if user_input[-1] == " " and len(user_word_list) == 1:
         word_predictor.create_bigram()
         guess_1, guess_2, guess_3 = word_predictor.guess_next_word_bigram(user_word_list[0])
 
+    # guess next full word using past 2 words
     elif user_input[-1] == " " and len(user_word_list) >= 2:
         word_predictor.create_trigram()
         guess_1, guess_2, guess_3 = word_predictor.guess_next_word_trigram(user_word_list[-2], user_word_list[-1])
+
+    # guess ending of current word
+    else:
+        guess_1, guess_2, guess_3 = word_predictor.finish_word(user_input.lower())
 
     print(guess_1, guess_2, guess_3)
 
 
 if __name__ == "__main__":
     main()
+
+
+# # do we want spell check
+# min_1 = 1000
+# min_2 = 1000
+# min_3 = 1000
+# guess_1 = ""
+# guess_2 = ""
+# guess_3 = ""
+
+# for token in self.tokens:
+    
+    # edit_distance = nltk.edit_distance(token[:len(current_word)],current_word)
+    # if token != guess_1 and token != guess_2 and token != guess_3:
+    #     if edit_distance < min_1:
+    #         min_1 = edit_distance
+    #         guess_1 = token
+    #     elif edit_distance < min_2 :
+    #         min_2 = edit_distance
+    #         guess_2 = token
+    #     elif edit_distance < min_3 :
+    #         min_3 = edit_distance
+    #         guess_3 = token
 
 
     
