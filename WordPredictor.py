@@ -3,7 +3,6 @@ from nltk.util import ngrams
 import codecs
 from collections import defaultdict
 
-
 class WordPredictor(object):
 
     def process_file(self, f):
@@ -33,59 +32,55 @@ class WordPredictor(object):
         self.trigram_freq = nltk.ConditionalFreqDist(trigrams_as_bigrams)
 
     def guess_next_word_bigram(self, prev_word):
-        try:
-            bigram_most_common = self.bigram_freq[prev_word.lower()].most_common(3)
-            guess_1 = bigram_most_common[0][0]
-            guess_2 = bigram_most_common[1][0]
-            guess_3 = bigram_most_common[2][0]
-        except:
-            guess_1 = None
-            guess_2 = None
-            guess_3 = None
+
+        bigram_most_common = self.bigram_freq[prev_word.lower()].most_common(3)
+        guess_1, guess_2, guess_3 = self.parse_most_common_output(bigram_most_common)
+
         return guess_1, guess_2, guess_3
 
     def guess_next_word_trigram(self, prev_prev_word, prev_word):
-        try:
-            trigram_most_common = self.trigram_freq[(prev_prev_word.lower(),prev_word.lower())].most_common(3)
-            guess_1 = trigram_most_common[0][0]
-            guess_2 = trigram_most_common[1][0]
-            guess_3 = trigram_most_common[2][0]
-        except:
-            guess_1 = None
-            guess_2 = None
-            guess_3 = None
+        
+        trigram_most_common = self.trigram_freq[(prev_prev_word.lower(),prev_word.lower())].most_common(3)
+        guess_1, guess_2, guess_3 = self.parse_most_common_output(trigram_most_common)
+
         return guess_1, guess_2, guess_3
 
     def finish_word(self, current_word):
-        try:
-            words_with_same_start = []
 
-            for token in self.tokens:
-                if token.startswith(current_word):
-                    words_with_same_start.append(token)
+        words_with_same_start = []
 
-            finish_word_freq_dist = nltk.FreqDist(words_with_same_start)
-            guess_1, guess_2, guess_3 = finish_word_freq_dist.most_common(3)
-            guess_1, guess_2, guess_3 = guess_1[0], guess_2[0], guess_3[0]
+        for token in self.tokens:
+            if token.startswith(current_word):
+                words_with_same_start.append(token)
 
+        finish_word_freq_dist = nltk.FreqDist(words_with_same_start)
+        most_common_words = finish_word_freq_dist.most_common(3)
 
-        except:
-            guess_1 = None
-            guess_2 = None
-            guess_3 = None
+        guess_1, guess_2, guess_3 = self.parse_most_common_output(most_common_words)
 
         return guess_1, guess_2, guess_3
+
+    def parse_most_common_output(self, most_common_words):
+        if len(most_common_words) == 3:
+                guess_1, guess_2, guess_3 = most_common_words
+                guess_1, guess_2, guess_3 = guess_1[0], guess_2[0], guess_3[0]
+        elif len(most_common_words) == 2:
+            guess_1, guess_2 = most_common_words[0], most_common_words[1]
+            guess_3 = None
+        elif len(most_common_words) == 1:
+            guess_1 = most_common_words[0][0]
+            guess_2, guess_3 = None, None
+        else: 
+            guess_1, guess_2, guess_3 = None, None, None
+        return guess_1, guess_2, guess_3
+
 
 def main():
     word_predictor = WordPredictor()
     word_predictor.process_file("corpus.txt")
 
-    user_input = "Thi"
+    user_input = "zub"
     user_word_list = user_input.split()
-
-    guess_1 = None
-    guess_2 = None
-    guess_3 = None
 
     # guess next full word using previous word
     if user_input[-1] == " " and len(user_word_list) == 1:
@@ -129,15 +124,5 @@ if __name__ == "__main__":
     #     elif edit_distance < min_3 :
     #         min_3 = edit_distance
     #         guess_3 = token
-
-
-    
-
-
-
-
-
-
-
 
 
