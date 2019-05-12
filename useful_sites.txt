@@ -1,1 +1,2 @@
 http://effbot.org/tkinterbook/text.htm
+https://cs.nyu.edu/courses/spring17/CSCI-UA.0480-009/lecture3-and-half-n-grams.pdf
