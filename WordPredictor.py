@@ -1,7 +1,6 @@
 import nltk
 from nltk.util import ngrams
 import codecs
-from collections import defaultdict
 
 class WordPredictor(object):
 
@@ -79,7 +78,7 @@ def main():
     word_predictor = WordPredictor()
     word_predictor.process_file("corpus.txt")
 
-    user_input = "zub"
+    user_input = "Thi"
     user_word_list = user_input.split()
 
     # guess next full word using previous word
