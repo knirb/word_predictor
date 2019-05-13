@@ -27,7 +27,7 @@ class GUI:
         self.root.geometry('400x300')
         self.textBox = scrolledtext.ScrolledText(self.root, width=49, height=5, wrap   = 'word')
         self.listBox = Listbox(self.root,width=49, height=5)
-        self.textBox.insert(tk.INSERT, "This is our example text")
+        self.textBox.insert(tk.INSERT, "This is our example text ")
         for i in range(4):
             self.listBox.insert(i, i)
         self.textBox.grid(column = 1, row = 0)

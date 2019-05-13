@@ -17,24 +17,30 @@ def second_main():
     # guess next full word using past 2 words
     if user_input[-1] == " " and len(user_word_list) >= 2:
         word_predictor.create_trigram()
+        print('here1')
         print(user_word_list[-2], user_word_list[-1])
         guess_1, guess_2, guess_3 = word_predictor.guess_next_word_trigram(user_word_list[-2], user_word_list[-1])
 
     # guess next full word using previous word
-    elif (user_input[-1] == " " and len(user_word_list) == 1) or ( guess_1==None and guess_2==None and guess_3==None ):
+    if (user_input[-1] == " " and len(user_word_list) == 1) or ( guess_1==None and guess_2==None and guess_3==None ):
         word_predictor.create_bigram()
-        guess_1, guess_2, guess_3 = word_predictor.guess_next_word_bigram(user_word_list[0])
+        print('here2')
+        print('user_word_list[0]: ' + user_word_list[0])
+        guess_1, guess_2, guess_3 = word_predictor.guess_next_word_bigram(user_word_list[-1])
+
 
     # if next word predictor still has no guesses after trigram and bigram model
-    elif(user_input[-1] == " ") and (guess_1==None and guess_2==None and guess_3==None):
+    if(user_input[-1] == " ") and (guess_1==None and guess_2==None and guess_3==None):
          guess_1, guess_2, guess_3 = word_predictor.guess_next_word_unigram()
+         print('here3')
 
     # guess ending of current word
-    elif (user_input[-1] != " "):
+    if (user_input[-1] != " "):
+        print('here4')
         guess_1, guess_2, guess_3 = word_predictor.finish_word(user_word_list[-1].lower())
 
+    print("g1:" + str(guess_1),"g2:" +  str(guess_2),"g3:" +  str(guess_3))
     gui.setList([guess_1, guess_2, guess_3])
-    print(guess_1, guess_2, guess_3)
 
 def main():
     second_main_thread = threading.Thread(target = second_main)

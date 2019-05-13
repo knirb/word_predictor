@@ -12,7 +12,7 @@ class WordPredictor(object):
         except LookupError:
             nltk.download('punkt')
             self.tokens = nltk.word_tokenize(text)
-    
+
     def __init__(self):
         self.tokens = []
         self.bigram_model = []
@@ -46,7 +46,7 @@ class WordPredictor(object):
         return guess_1, guess_2, guess_3
 
     def guess_next_word_trigram(self, prev_prev_word, prev_word):
-        
+
         trigram_most_common = self.trigram_freq[(prev_prev_word.lower(),prev_word.lower())].most_common(3)
         guess_1, guess_2, guess_3 = self.parse_most_common_output(trigram_most_common)
 
@@ -72,12 +72,12 @@ class WordPredictor(object):
                 guess_1, guess_2, guess_3 = most_common_words
                 guess_1, guess_2, guess_3 = guess_1[0], guess_2[0], guess_3[0]
         elif len(most_common_words) == 2:
-            guess_1, guess_2 = most_common_words[0], most_common_words[1]
+            guess_1, guess_2 = most_common_words[0][0], most_common_words[1][0]
             guess_3 = None
         elif len(most_common_words) == 1:
             guess_1 = most_common_words[0][0]
             guess_2, guess_3 = None, None
-        else: 
+        else:
             guess_1, guess_2, guess_3 = None, None, None
         return guess_1, guess_2, guess_3
 
@@ -92,7 +92,7 @@ class WordPredictor(object):
 # guess_3 = ""
 
 # for token in self.tokens:
-    
+
     # edit_distance = nltk.edit_distance(token[:len(current_word)],current_word)
     # if token != guess_1 and token != guess_2 and token != guess_3:
     #     if edit_distance < min_1:
@@ -104,5 +104,3 @@ class WordPredictor(object):
     #     elif edit_distance < min_3 :
     #         min_3 = edit_distance
     #         guess_3 = token
-
-
