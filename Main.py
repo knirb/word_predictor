@@ -2,9 +2,11 @@ from WordPredictor import WordPredictor
 from gui import GUI
 import threading
 gui = GUI()
+word_predictor = WordPredictor()
+word_predictor.process_file("corpus.txt")
+def update():
+    pass
 def second_main():
-    word_predictor = WordPredictor()
-    word_predictor.process_file("corpus.txt")
     user_input = gui.getText()
     user_input = user_input[:-1]
     print('user input: ' + user_input)

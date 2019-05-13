@@ -27,15 +27,27 @@ class GUI:
         self.root.geometry('400x300')
         self.textBox = scrolledtext.ScrolledText(self.root, width=49, height=5, wrap   = 'word')
         self.listBox = Listbox(self.root,width=49, height=5)
-        self.textBox.insert(tk.INSERT, "This is our example text this is ")
+        self.textBox.insert(tk.INSERT, "This is our example text")
+        for i in range(4):
+            self.listBox.insert(i, i)
         self.textBox.grid(column = 1, row = 0)
         self.listBox.grid(column = 1, row = 2)
     def getText(self):
         self.curText = self.textBox.get('1.0',tk.END)
         return self.curText
     def setList(self, guesses): #TODO figure out listbox
-        for guess in guesses:
-            self.listBox.insert(END, guess)
+        self.listBox.delete(0,END)
+        for i in range(len(guesses)):
+            if guesses[i] != None:
+                self.listBox.insert(i, guesses[i])
+            else:
+                self.listBox.insert(i,'')
+        self.insertWord(guesses[0])
+    def insertWord(self, word):
+        self.textBox.insert(tk.INSERT, word)
+    def replaceWord(self,word):
+        #TODO REMOVE PAST WORD
+        self.textBox.insert(tk.END,word)
     def tokenize(self, text_in): #TODO: write this function
         try :
             tokens = nltk.word_tokenize(text_in)
