@@ -32,7 +32,8 @@ class WordPredictor(object):
 
     def guess_next_word_unigram(self, word):
 
-        unigram_most_common = self.tokens.most_common(3)
+        words_freq_dist = nltk.FreqDist(self.tokens)
+        unigram_most_common = words_freq_dist.most_common(3)
         guess_1, guess_2, guess_3 = self.parse_most_common_output(unigram_most_common)
 
         return guess_1, guess_2, guess_3
