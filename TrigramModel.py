@@ -5,7 +5,9 @@ from collections import defaultdict
 
 
 class TrigramModel(object):
+  """
 
+  """
   def process_files(self, f):
     with codecs.open(f, 'r', 'utf-8') as text_file:
       text = str(text_file.read()).lower()
@@ -53,12 +55,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-
-
-
-
-
-
-
-

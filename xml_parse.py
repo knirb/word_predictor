@@ -4,6 +4,7 @@ f = open('blogs_detagged.txt','w+')
 path = 'blogs/'
 badCount = 0
 goodCount = 0
+#TODO : Add some marker that a new post has started
 for filename in os.listdir(path):
     try:
         fileLocation = path + filename
