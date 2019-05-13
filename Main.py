@@ -25,7 +25,7 @@ def second_main():
 
     # if next word predictor still has no guesses after trigram and bigram model
     elif(user_input[-1] == " ") and (guess_1==None and guess_2==None and guess_3==None):
-         guess_1, guess_2, guess_3 = word_predictor.guess_next_word_unigram(user_word_list[-1])
+         guess_1, guess_2, guess_3 = word_predictor.guess_next_word_unigram()
 
     # guess ending of current word
     elif (user_input[-1] != " "):
