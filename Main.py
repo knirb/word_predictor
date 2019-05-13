@@ -4,7 +4,7 @@ def main():
     word_predictor = WordPredictor()
     word_predictor.process_file("corpus.txt")
 
-    user_input = "Thi"
+    user_input = "welcom"
     user_word_list = user_input.split()
 
     # guess next full word using previous word
@@ -19,7 +19,7 @@ def main():
 
     # guess ending of current word
     else:
-        guess_1, guess_2, guess_3 = word_predictor.finish_word(user_input.lower())
+        guess_1, guess_2, guess_3 = word_predictor.finish_word(user_word_list[-1].lower())
 
     print(guess_1, guess_2, guess_3)
 
