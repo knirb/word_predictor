@@ -30,6 +30,14 @@ class WordPredictor(object):
         trigrams_as_bigrams.extend([((t[0],t[1]), t[2]) for t in self.trigram_model])
         self.trigram_freq = nltk.ConditionalFreqDist(trigrams_as_bigrams)
 
+    def guess_next_word_unigram(self):
+
+        words_freq_dist = nltk.FreqDist(self.tokens)
+        unigram_most_common = words_freq_dist.most_common(3)
+        guess_1, guess_2, guess_3 = self.parse_most_common_output(unigram_most_common)
+
+        return guess_1, guess_2, guess_3
+
     def guess_next_word_bigram(self, prev_word):
 
         bigram_most_common = self.bigram_freq[prev_word.lower()].most_common(3)
