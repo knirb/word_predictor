@@ -25,20 +25,18 @@ class GUI:
         self.root = Tk()
         self.root.title('Word Predictor')
         self.root.geometry('400x300')
-        self.textBox = scrolledtext.ScrolledText(root, width=49, height=5, wrap   = 'word')
-        self.listBox = Listbox(root,width=49, height=5)
-        self.textBox.insert(tk.INSERT, "testing if this is \n working ")
+        self.textBox = scrolledtext.ScrolledText(self.root, width=49, height=5, wrap   = 'word')
+        self.listBox = Listbox(self.root,width=49, height=5)
+        self.textBox.insert(tk.INSERT, "This is our example text this is ")
         self.textBox.grid(column = 1, row = 0)
         self.listBox.grid(column = 1, row = 2)
-    def getText():
-        self.curText = textBox.get('1.0',tk.END)
-        tokens = tokenize(self.curText)
-        return tokens[len(tokens)-3:len(tokens)-1]
-    def setList(guesses): #TODO figure out listbox
-        pass
-
-
-    def tokenize(text_in): #TODO: write this function
+    def getText(self):
+        self.curText = self.textBox.get('1.0',tk.END)
+        return self.curText
+    def setList(self, guesses): #TODO figure out listbox
+        for guess in guesses:
+            self.listBox.insert(END, guess)
+    def tokenize(self, text_in): #TODO: write this function
         try :
             tokens = nltk.word_tokenize(text_in)
             return tokens
@@ -46,8 +44,8 @@ class GUI:
             nltk.download('punkt')
             tokens = nltk.word_tokenize(text_in)
             return tokens
-    def run_loop():
-        root.mainloop()        
+    def run_loop(self):
+        self.root.mainloop()
 
     # def keyCheck():
     #     while True:
@@ -68,20 +66,23 @@ class GUI:
     #         curText = textBox.get('1.0',tk.END)
     #     except:
     #         print('something went wrong')
+def run_process():
+    pass
 
-# def main():
-#     wp = WordPredictor()
-#     wp.process_file('corpus.txt')
-#     keyboardThread = threading.Thread(target = keyCheck)
-#     keyboardThread.start()
-#     root.mainloop()
-#     keyboardThread.join()
-# if __name__ == '__main__':
-#     try:
-#         main()
-#     except KeyboardInterrupt:
-#         print('Interrupted')
-#         try:
-#             sys.exit(0)
-#         except SystemExit:
-#             os._exit(0)
+def main():
+    wp = WordPredictor()
+    wp.process_file('corpus.txt')
+    gui = GUI()
+    operating_thread = threading.Thread(target = run_process)
+    keyboardThread.start()
+    gui.root.mainloop()
+    # keyboardThread.join()
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('Interrupted')
+        try:
+            sys.exit(0)
+        except SystemExit:
+            os._exit(0)
