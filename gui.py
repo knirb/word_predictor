@@ -23,7 +23,6 @@ class GUI:
     def __init__(self):
         self.curText = ''
         self.shouldReplace = False
-        self.addedFromList = False
         self.lenReplace = 0
         self.root = Tk()
         self.root.title('Word Predictor')
@@ -35,14 +34,16 @@ class GUI:
         self.textBox.grid(column = 1, row = 0)
         self.listBox.grid(column = 1, row = 2)
 
-    
+    def bindCallback(self, callback):
+        self.callback = callback
+
     def clickedList(self, event):
         if self.shouldReplace ==False:
             self.insertWord(self.listBox.get(ACTIVE))
         else:
             self.replaceWord(self.listBox.get(ACTIVE))
         self.clearList()
-        self.addedFromList = True
+        self.callback()
 
     def getText(self):
         self.curText = self.textBox.get('1.0',tk.END)
@@ -57,7 +58,8 @@ class GUI:
                 self.listBox.insert(i,'')
 
     def insertWord(self, word):
-            self.textBox.insert(tk.END, word + ' ')
+        self.textBox.insert(tk.END, word + ' ')
+
     def replaceWord(self,word):
         #TODO REMOVE PAST WORD
         self.textBox.insert(tk.END,word + ' ')
@@ -71,31 +73,6 @@ class GUI:
             nltk.download('punkt')
             tokens = nltk.word_tokenize(text_in)
             return tokens
-
-    def run_loop(self):
-        self.root.mainloop()
-
-    # def keyCheck():
-    #     while True:
-    #         try:
-    #             #TODO: tokenizecurtext - > compare to ngrams -> show suggestions in listbox
-    #             waitForKey()
-    #             tokens = tokenize(curText)
-    #             print(curText)
-    #             #suggestions = findSuggestions(tokens[len(tokens)-4:len(tokens)-1])
-    #             print('You Pressed A Key!')
-    #         except:
-    #             break
-    # def waitForKey():
-    #     key = keyboard.read_key()
-    #     keyboard.on_release_key(key,doNothing,suppress= True)
-    # def getText(e):
-    #     try:
-    #         curText = textBox.get('1.0',tk.END)
-    #     except:
-    #         print('something went wrong')
-def run_process():
-    pass
 
 def main():
     wp = WordPredictor()

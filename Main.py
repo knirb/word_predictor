@@ -5,9 +5,10 @@ import keyboard
 import time
 import sys
 import os
+
 gui = GUI()
 word_predictor = WordPredictor()
-word_predictor.process_file("corpus.txt")
+
 def update():
     try:
         time.sleep(0.01)
@@ -55,7 +56,6 @@ def update():
     except:
         print('Update failed')
 
-
 def keyLoop():
     while True:
         waitForKey()
@@ -64,14 +64,17 @@ def keyLoop():
 def waitForKey():
     key = keyboard.read_key()
     keyboard.on_release_key(key,doNothing)
+
 def doNothing(self):
     pass
+
 def main():
+    gui.bindCallback(update)
+    word_predictor.process_file("corpus.txt")
     keyThread = threading.Thread(target = keyLoop)
     keyThread.daemon = True
     keyThread.start()
     gui.root.mainloop()
-
 
 if __name__ == "__main__":
     try:
