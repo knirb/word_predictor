@@ -74,8 +74,9 @@ def main():
     keyThread = threading.Thread(target = keyLoop)
     keyThread.daemon = True
     keyThread.start()
-    clickThread = threading.Thread(target = clickLoop)
-    clickThread.start()
+    #clickThread = threading.Thread(target = clickLoop)
+
+    #clickThread.start()
     gui.root.mainloop()
 
 
