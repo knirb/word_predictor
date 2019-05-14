@@ -3,9 +3,12 @@ from gui import GUI
 import threading
 import keyboard
 import time
+import sys
+import os
 gui = GUI()
 word_predictor = WordPredictor()
 word_predictor.process_file("corpus.txt")
+stopThreads = False
 def update():
     try:
         time.sleep(0.01)
@@ -54,8 +57,11 @@ def update():
         print('Update failed')
 
 
-def second_main():
+def keyLoop():
     while True:
+        if stopThreads:
+            print('Stopped thread')
+            break
         waitForKey()
         update()
 
@@ -65,10 +71,22 @@ def waitForKey():
 def doNothing(self):
     pass
 def main():
-    second_main_thread = threading.Thread(target = second_main)
-    second_main_thread.start()
+    keyThread = threading.Thread(target = keyLoop)
+    keyThread.daemon = True
+    keyThread.start()
+    clickThread = threading.Thread(target = clickLoop)
+    clickThread.start()
     gui.root.mainloop()
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('Interrupted')
+        stopThreads = True
+        try:
+            sys.exit(0)
+        except SystemExit:
+            stopThreads = True
+            os._exit(0)
