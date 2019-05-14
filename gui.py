@@ -23,6 +23,7 @@ class GUI:
     def __init__(self):
         self.curText = ''
         self.shouldReplace = False
+        self.addedFromList = False
         self.lenReplace = 0
         self.root = Tk()
         self.root.title('Word Predictor')
@@ -34,13 +35,14 @@ class GUI:
         self.textBox.grid(column = 1, row = 0)
         self.listBox.grid(column = 1, row = 2)
 
-
+    
     def clickedList(self, event):
         if self.shouldReplace ==False:
             self.insertWord(self.listBox.get(ACTIVE))
         else:
             self.replaceWord(self.listBox.get(ACTIVE))
         self.clearList()
+        self.addedFromList = True
 
     def getText(self):
         self.curText = self.textBox.get('1.0',tk.END)
