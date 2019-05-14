@@ -22,32 +22,45 @@ from WordPredictor import WordPredictor
 class GUI:
     def __init__(self):
         self.curText = ''
+        self.shouldReplace = False
+        self.lenReplace = 0
         self.root = Tk()
         self.root.title('Word Predictor')
         self.root.geometry('400x300')
         self.textBox = scrolledtext.ScrolledText(self.root, width=49, height=5, wrap   = 'word')
         self.listBox = Listbox(self.root,width=49, height=5)
-        self.textBox.insert(tk.INSERT, "This is our example text ")
-        for i in range(4):
-            self.listBox.insert(i, i)
+        self.listBox.bind("<Double-Button-1>", self.clickedList)
+        self.textBox.insert(tk.INSERT, "")
         self.textBox.grid(column = 1, row = 0)
         self.listBox.grid(column = 1, row = 2)
+
+
+    def clickedList(self, event):
+        if self.shouldReplace ==False:
+            self.insertWord(self.listBox.get(ACTIVE))
+        else:
+            self.replaceWord(self.listBox.get(ACTIVE))
+        self.clearList()
+
     def getText(self):
         self.curText = self.textBox.get('1.0',tk.END)
         return self.curText
+
     def setList(self, guesses): #TODO figure out listbox
-        self.listBox.delete(0,END)
+        self.clearList()
         for i in range(len(guesses)):
             if guesses[i] != None:
                 self.listBox.insert(i, guesses[i])
             else:
                 self.listBox.insert(i,'')
-        self.insertWord(guesses[0])
+
     def insertWord(self, word):
-        self.textBox.insert(tk.INSERT, word)
+            self.textBox.insert(tk.END, word + ' ')
     def replaceWord(self,word):
         #TODO REMOVE PAST WORD
-        self.textBox.insert(tk.END,word)
+        self.textBox.insert(tk.END,word + ' ')
+    def clearList(self):
+        self.listBox.delete(0,END)
     def tokenize(self, text_in): #TODO: write this function
         try :
             tokens = nltk.word_tokenize(text_in)
@@ -56,6 +69,7 @@ class GUI:
             nltk.download('punkt')
             tokens = nltk.word_tokenize(text_in)
             return tokens
+
     def run_loop(self):
         self.root.mainloop()
 
