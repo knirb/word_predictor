@@ -30,7 +30,6 @@ class GUI:
         self.textBox = scrolledtext.ScrolledText(self.root, width=49, height=5, wrap   = 'word')
         self.listBox = Listbox(self.root,width=49, height=5)
         self.listBox.bind("<Double-Button-1>", self.clickedList)
-        self.textBox.insert(tk.INSERT, "")
         self.textBox.grid(column = 1, row = 0)
         self.listBox.grid(column = 1, row = 2)
 
