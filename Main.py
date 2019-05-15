@@ -28,14 +28,12 @@ def update():
 
         # guess next full word using past 2 words
         if user_input[-1] == " " and len(user_word_list) >= 2:
-            word_predictor.create_trigram()
         #    print('here1')
         #    print(user_word_list[-2], user_word_list[-1])
             guess_1, guess_2, guess_3 = word_predictor.guess_next_word_trigram(user_word_list[-2], user_word_list[-1])
 
         # guess next full word using previous word
         if (user_input[-1] == " " and len(user_word_list) == 1) or ( guess_1==None and guess_2==None and guess_3==None ):
-            word_predictor.create_bigram()
         #    print('here2')
         #    print('user_word_list[0]: ' + user_word_list[0])
             guess_1, guess_2, guess_3 = word_predictor.guess_next_word_bigram(user_word_list[-1])
@@ -70,7 +68,10 @@ def doNothing(self):
 
 def main():
     gui.bindCallback(update)
-    word_predictor.process_file("corpus.txt")
+    word_predictor.process_file("new_corpus.txt")
+    word_predictor.create_token_dict()
+    word_predictor.create_bigram()
+    word_predictor.create_trigram()
     keyThread = threading.Thread(target = keyLoop)
     keyThread.daemon = True
     keyThread.start()

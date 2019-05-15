@@ -1,11 +1,12 @@
 import nltk
 from nltk.util import ngrams
 import codecs
+from collections import defaultdict
 
 class WordPredictor(object):
 
     def process_file(self, f):
-        with codecs.open('corpus.txt', 'r', 'utf-8') as text_file:
+        with codecs.open(f, 'r', 'utf-8') as text_file:
             text = str(text_file.read()).lower()
         try :
             self.tokens = nltk.word_tokenize(text)
@@ -15,6 +16,7 @@ class WordPredictor(object):
 
     def __init__(self):
         self.tokens = []
+        self.token_dict = defaultdict(list)
         self.bigram_model = []
         self.trigram_model = []
         self.bigram_freq = []
@@ -29,6 +31,10 @@ class WordPredictor(object):
         trigrams_as_bigrams = []
         trigrams_as_bigrams.extend([((t[0],t[1]), t[2]) for t in self.trigram_model])
         self.trigram_freq = nltk.ConditionalFreqDist(trigrams_as_bigrams)
+
+    def create_token_dict(self):
+        for token in self.tokens:
+            self.token_dict[token[0]].append(token)
 
     def guess_next_word_unigram(self):
 
@@ -62,7 +68,7 @@ class WordPredictor(object):
 
         words_with_same_start = []
 
-        for token in self.tokens:
+        for token in self.token_dict[current_word[0]]:
             if token.startswith(current_word):
                 words_with_same_start.append(token)
 
