@@ -8,7 +8,6 @@ class WordPredictor(object):
     def process_file(self, f):
         with codecs.open(f, 'r', 'utf-8') as text_file:
             text = str(text_file.read()).lower()
-
         try :
             self.tokens = nltk.word_tokenize(text)
         except LookupError:
@@ -41,7 +40,12 @@ class WordPredictor(object):
 
         words_freq_dist = nltk.FreqDist(self.tokens)
         unigram_most_common = words_freq_dist.most_common(3)
-
+        if(guess_1 == "i"):
+            guess_1 = "I"
+        if(guess_2 == "i"):
+            guess_2 = "I"
+        if(guess_3 == "i"):
+            guess_3 = "I"
         guess_1, guess_2, guess_3 = self.parse_most_common_output(unigram_most_common)
 
         return guess_1, guess_2, guess_3
@@ -87,10 +91,28 @@ class WordPredictor(object):
             guess_2, guess_3 = None, None
         else:
             guess_1, guess_2, guess_3 = None, None, None
-        if(guess_1 == "i"):
-            guess_1 = "I"
-        if(guess_2 == "i"):
-            guess_2 = "I"
-        if(guess_3 == "i"):
-            guess_3 = "I"
         return guess_1, guess_2, guess_3
+
+
+
+# # do we want spell check
+# min_1 = 1000
+# min_2 = 1000
+# min_3 = 1000
+# guess_1 = ""
+# guess_2 = ""
+# guess_3 = ""
+
+# for token in self.tokens:
+
+    # edit_distance = nltk.edit_distance(token[:len(current_word)],current_word)
+    # if token != guess_1 and token != guess_2 and token != guess_3:
+    #     if edit_distance < min_1:
+    #         min_1 = edit_distance
+    #         guess_1 = token
+    #     elif edit_distance < min_2 :
+    #         min_2 = edit_distance
+    #         guess_2 = token
+    #     elif edit_distance < min_3 :
+    #         min_3 = edit_distance
+    #         guess_3 = token
