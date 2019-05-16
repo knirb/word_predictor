@@ -6,20 +6,10 @@ import threading
 import nltk
 import sys
 import os
-from TrigramModel import TrigramModel
 from WordPredictor import WordPredictor
 
-# curText = ''
-# root = Tk()
-# root.title('Word predictor')
-# root.geometry('400x300')
-# textBox = scrolledtext.ScrolledText(root, width=49, height=5, wrap   = 'word')
-# listBox = Listbox(root,width=49, height=5)
-# textBox.insert(tk.INSERT, "testing if this is \n working ")
-# print(textBox.get('1.0', tk.END))
-# textBox.grid(column = 1, row = 0)
-# listBox.grid(column = 1, row = 2)
 class GUI:
+
     def __init__(self):
         self.curText = ''
         self.shouldReplace = False
@@ -48,7 +38,7 @@ class GUI:
         self.curText = self.textBox.get('1.0',tk.END)
         return self.curText
 
-    def setList(self, guesses): #TODO figure out listbox
+    def setList(self, guesses):
         self.clearList()
         for i in range(len(guesses)):
             if guesses[i] != None:
@@ -60,18 +50,11 @@ class GUI:
         self.textBox.insert(tk.END, word + ' ')
 
     def replaceWord(self,word):
-        #TODO REMOVE PAST WORD
         self.textBox.insert(tk.END,word + ' ')
+
     def clearList(self):
         self.listBox.delete(0,END)
-    def tokenize(self, text_in): #TODO: write this function
-        try :
-            tokens = nltk.word_tokenize(text_in)
-            return tokens
-        except LookupError :
-            nltk.download('punkt')
-            tokens = nltk.word_tokenize(text_in)
-            return tokens
+
 
 def main():
     wp = WordPredictor()
@@ -80,7 +63,7 @@ def main():
     operating_thread = threading.Thread(target = run_process)
     keyboardThread.start()
     gui.root.mainloop()
-    # keyboardThread.join()
+
 if __name__ == '__main__':
     try:
         main()

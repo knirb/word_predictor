@@ -22,31 +22,24 @@ def update():
         else:
             gui.shouldReplace = True
             gui.lenReplace = len(user_word_list[-1])
-        #print('user input: ' + user_input)
-        #print('user input[-1]:' + user_input[-1] + 'end')
+
         guess_1,guess_2,guess_3 = None,None,None
 
         # guess next full word using past 2 words
         if user_input[-1] == " " and len(user_word_list) >= 2:
-        #    print('here1')
-        #    print(user_word_list[-2], user_word_list[-1])
             guess_1, guess_2, guess_3 = word_predictor.guess_next_word_trigram(user_word_list[-2], user_word_list[-1])
 
         # guess next full word using previous word
         if (user_input[-1] == " " and len(user_word_list) == 1) or ( guess_1==None and guess_2==None and guess_3==None ):
-        #    print('here2')
-        #    print('user_word_list[0]: ' + user_word_list[0])
             guess_1, guess_2, guess_3 = word_predictor.guess_next_word_bigram(user_word_list[-1])
 
 
         # if next word predictor still has no guesses after trigram and bigram model
         if(user_input[-1] == " ") and (guess_1==None and guess_2==None and guess_3==None):
             guess_1, guess_2, guess_3 = word_predictor.guess_next_word_unigram()
-        #    print('here3')
 
         # guess ending of current word
         if (user_input[-1] != " "):
-        #    print('here4')
             guess_1, guess_2, guess_3 = word_predictor.finish_word(user_word_list[-1].lower())
 
         print("g1:" + str(guess_1),"g2:" +  str(guess_2),"g3:" +  str(guess_3))
@@ -68,6 +61,7 @@ def doNothing(self):
 
 def main():
     gui.bindCallback(update)
+
     word_predictor.process_file("new_corpus.txt")
     word_predictor.create_token_dict()
     word_predictor.create_bigram()
