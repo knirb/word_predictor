@@ -92,27 +92,3 @@ class WordPredictor(object):
         else:
             guess_1, guess_2, guess_3 = None, None, None
         return guess_1, guess_2, guess_3
-
-
-
-# # do we want spell check
-# min_1 = 1000
-# min_2 = 1000
-# min_3 = 1000
-# guess_1 = ""
-# guess_2 = ""
-# guess_3 = ""
-
-# for token in self.tokens:
-
-    # edit_distance = nltk.edit_distance(token[:len(current_word)],current_word)
-    # if token != guess_1 and token != guess_2 and token != guess_3:
-    #     if edit_distance < min_1:
-    #         min_1 = edit_distance
-    #         guess_1 = token
-    #     elif edit_distance < min_2 :
-    #         min_2 = edit_distance
-    #         guess_2 = token
-    #     elif edit_distance < min_3 :
-    #         min_3 = edit_distance
-    #         guess_3 = token
